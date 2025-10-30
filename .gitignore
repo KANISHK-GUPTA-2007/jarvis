@@ -1,0 +1,87 @@
+# ----------------------------
+# Python
+# ----------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.log
+
+# Virtual environments
+.env/
+.venv/
+env/
+venv/
+ENV/
+
+# Jupyter notebook checkpoints
+.ipynb_checkpoints/
+
+# ----------------------------
+# IDE / Editor Configs
+# ----------------------------
+# PyCharm / IntelliJ IDEA
+.idea/
+
+# VS Code
+.vscode/
+
+# ----------------------------
+# OS Specific Files
+# ----------------------------
+# Windows
+Thumbs.db
+Desktop.ini
+
+# macOS
+.DS_Store
+
+# Linux
+*~
+
+# ----------------------------
+# Build / Distribution
+# ----------------------------
+build/
+dist/
+*.egg-info/
+
+# ----------------------------
+# Project Specific
+# ----------------------------
+# ChromeDriver binary and archives
+chromedriver-win64/
+chromedriver-win64.zip
+
+# Temporary / generated UI files
+JARVIS_UI/*.webm
+JARVIS_UI/*.mp3
+JARVIS_UI/temp_*.html
+
+# Logs or temporary data
+logs/
+tmp/
+temp/
+*.tmp
+
+# ----------------------------
+# Python cache and compiled files (redundant safety)
+# ----------------------------
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+
+# ----------------------------
+# Custom Integration Files (if auto-generated)
+# ----------------------------
+*_integration_main.py
+_integration_automation.py
+_integration_function.py
+
+# ----------------------------
+# Backup / Misc
+# ----------------------------
+*.bak
+*.swp
+*.swo
