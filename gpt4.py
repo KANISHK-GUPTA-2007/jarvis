@@ -1,5 +1,5 @@
-import threading
-
+from http import client
+import os
 from g4f.client import Client
 
 from jarvis_speak.speak import speak_safe
@@ -28,50 +28,70 @@ def llm2(text: str) -> str:
     except Exception as e:
         speak_safe(f"[Error in llm2]: {e}")  # for debugging/logs
         return "Apologies sir, I encountered a small issue while processing your request."
+
 import requests
-from PIL import Image, ImageTk
 from io import BytesIO
+from PIL import Image, ImageTk
 import urllib.parse
 import tkinter as tk
-import multiprocessing
-from jarvis_speak.speak import speak_safe
+import threading
 
-def _show_image_window(prompt, img_data):
-    root = tk.Tk()
-    root.title(prompt)
-    root.geometry("800x800")
 
-    img = Image.open(BytesIO(img_data))
-    tk_img = ImageTk.PhotoImage(img)
-    label = tk.Label(root, image=tk_img)
-    label.image = tk_img
-    label.pack()
-
-    root.mainloop()
+def speak_safe(msg):
+    print("JARVIS:", msg)
 
 
 def generate_and_show_image(prompt):
-    speak_safe("Generating AI image, please wait for some time")
+    """Generate and show an AI image quickly (no saving, manual close to exit)."""
 
-    encoded_prompt = urllib.parse.quote(prompt)
-    image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}"
+    def fetch_image():
+        try:
+            speak_safe("Generating AI image, please wait for some time.")
 
-    try:
-        response = requests.get(image_url, timeout=60)
-        response.raise_for_status()
+            # Pollinations API (no API key required)
+            encoded_prompt = urllib.parse.quote(prompt)
+            url = f"https://image.pollinations.ai/prompt/{encoded_prompt}"
 
-        # Open the image directly in memory — no saving
-        img_data = response.content
+            response = requests.get(url, timeout=20)
+            response.raise_for_status()
 
-        # Start a separate process for Tkinter display
-        p = multiprocessing.Process(target=_show_image_window, args=(prompt, img_data))
-        p.start()
+            # Convert to image in memory
+            img = Image.open(BytesIO(response.content)).resize((800, 800))
+
+            # Schedule GUI creation in main thread
+            root.after(0, lambda: show_image_window(prompt, img))
+
+        except Exception as e:
+            speak_safe(f"[Error generating image]: {e}")
+
+    def show_image_window(title, img):
+        """Display image and allow manual close to quit."""
+        win = tk.Toplevel(root)
+        win.title(title)
+        win.geometry("820x820")
+
+        # Display image
+        tk_img = ImageTk.PhotoImage(img)
+        label = tk.Label(win, image=tk_img)
+        label.image = tk_img
+        label.pack(fill="both", expand=True)
 
         speak_safe("Image displayed successfully.")
 
-    except Exception as e:
-        speak_safe(f"[Error generating image]: {e}")
+        # When user closes window, quit Tkinter completely
+        win.protocol("WM_DELETE_WINDOW", lambda: (win.destroy(), root.quit()))
+
+    # Fetch in background to keep UI responsive
+    threading.Thread(target=fetch_image, daemon=True).start()
 
 
+# --- MAIN ---
+root = tk.Tk()
+root.withdraw()  # Hide main window (we only use Toplevel)
 
-generate_and_show_image(" futuristic cityscape at sunset, vibrant colors, high detail ")
+# Call the function (non-blocking)
+
+
+# Run Tkinter event loop — ends when window is closed
+root.mainloop()
+
