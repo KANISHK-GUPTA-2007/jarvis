@@ -14,7 +14,7 @@ from JARVIS_BATTERY_AUTOMATION.battery_plug_check import check_plug_status
 from BRAIN.data_analysis_brain import brain_cmd
 from dlg import wake_up_dlg, good_bye_dlg
 from jarvis_speak.speak import speak_safe
-from gpt4 import generate_and_show_image
+from BRAIN.gpt4 import generate_and_show_image
 from JARVIS_FUNCTIONS.check_online_offline_status import real_time_online_checker
 # -------------------- Main listening loop --------------------
 

@@ -1,5 +1,5 @@
 
-from gpt4 import *
+from BRAIN.gpt4 import *
 from BRAIN.google_big_data import *
 from BRAIN.google_small_data import *
 from BRAIN.LLM import *
