@@ -14,13 +14,13 @@ def translate_hindi_to_english(text):
     tr_word = t.translate(text)
     return tr_word
 def listen():
-    import speech_recognition as sr
+    
 
     recognizer = sr.Recognizer()
 
     # Optimized for natural-speed speaking (no cutting off)
     recognizer.dynamic_energy_threshold = False      # fixed sensitivity (faster, stable)
-    recognizer.energy_threshold = 100                # moderate sensitivity (adjust 120–200 based on mic)
+    recognizer.energy_threshold = 150               # moderate sensitivity (adjust 120–200 based on mic)
     recognizer.pause_threshold = 0.9                 # wait ~1 second after you stop speaking
     recognizer.non_speaking_duration = 0.3           # detects speech slightly earlier
     recognizer.operation_timeout = None
@@ -56,7 +56,7 @@ def listen():
 
 
 def hearing():
-    import speech_recognition as sr
+    
 
     recognizer = sr.Recognizer()
 

@@ -18,6 +18,9 @@ from dlg import wake_up_dlg, good_bye_dlg
 from jarvis_speak.speak import speak_safe
 from BRAIN.gpt4 import generate_and_show_image
 from JARVIS_FUNCTIONS.check_online_offline_status import real_time_online_checker
+import os, sys
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 # -------------------- Main listening loop --------------------
 
 
@@ -56,6 +59,7 @@ def main_loop():
             pass
 # -------------------- Jarvis startup --------------------
 def jarvis():
+    
     t1 = threading.Thread(target=main_loop)
     t2 = threading.Thread(target=check_plug_status)
     t3 = threading.Thread(target=battery_alert1)

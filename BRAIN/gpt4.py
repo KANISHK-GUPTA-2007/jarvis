@@ -86,12 +86,12 @@ def generate_and_show_image(prompt):
 
 
 # --- MAIN ---
-root = tk.Tk()
-root.withdraw()  # Hide main window (we only use Toplevel)
+    root = tk.Tk()
+    root.withdraw()  # Hide main window (we only use Toplevel)
 
 # Call the function (non-blocking)
 
 
 # Run Tkinter event loop — ends when window is closed
-root.mainloop()
+    root.mainloop()
 
