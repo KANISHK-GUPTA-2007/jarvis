@@ -1,5 +1,7 @@
+
 import warnings
 warnings.filterwarnings("ignore")
+from multiprocessing import freeze_support
 import threading
 import random
 from jarvis_listen.listen import listen, hearing
@@ -71,5 +73,6 @@ def jarvis():
 
 # -------------------- Entry point --------------------
 if __name__ == "__main__":
+    freeze_support()
     jarvis()
 

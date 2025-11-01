@@ -99,7 +99,7 @@ class JarvisUI(QWidget):
         self.input_box.setGeometry(80, 575, 600, 350 )
         self.style_box(self.input_box, "cyan")
         self.input_box.setReadOnly(True)
-        self.input_box.setPlaceholderText("Listening and hearing output appear here...")
+        self.input_box.setPlaceholderText("Listening here...")
 
         # --- Output box (Jarvis replies) ---
         self.output_box = QTextEdit(self)
@@ -196,7 +196,7 @@ class JarvisUI(QWidget):
         self.process = QProcess(self)
         self.process.readyReadStandardOutput.connect(self.handle_output)
         self.process.finished.connect(lambda: QTimer.singleShot(200, self.stop_pulse))
-        self.process.start("python", [self.main_py_path])
+        self.process.start(sys.executable, [self.main_py_path])
 
     def handle_output(self):
         data = self.process.readAllStandardOutput().data().decode("utf-8", errors="ignore").strip()
