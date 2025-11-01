@@ -4,9 +4,7 @@ from jarvis_listen.listen import listen  # your existing voice input function
 
 def control_mouse_with_voice():
     """Control the mouse fully by voice — no coordinates."""
-    speak_safe("Voice mouse control activated. Say a direction or click command.")
     command = listen().lower()
-    print(f"🎙️ You said: {command}")
 
     try:
         if "left" in command:

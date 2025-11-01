@@ -70,5 +70,6 @@ def jarvis():
     t4.join()
 
 # -------------------- Entry point --------------------
-jarvis()
+if __name__ == "__main__":
+    jarvis()
 
