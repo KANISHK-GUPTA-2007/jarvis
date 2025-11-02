@@ -20,7 +20,7 @@ def listen():
 
     # Optimized for natural-speed speaking (no cutting off)
     recognizer.dynamic_energy_threshold = False      # fixed sensitivity (faster, stable)
-    recognizer.energy_threshold = 150               # moderate sensitivity (adjust 120–200 based on mic)
+    recognizer.energy_threshold = 150            # moderate sensitivity (adjust 120–200 based on mic)
     recognizer.pause_threshold = 0.9                 # wait ~1 second after you stop speaking
     recognizer.non_speaking_duration = 0.3           # detects speech slightly earlier
     recognizer.operation_timeout = None
