@@ -1,5 +1,4 @@
 import speech_recognition as sr
-from mtranslate import translate
 from colorama import Fore, init
 from deep_translator import GoogleTranslator
 init(autoreset=True)
