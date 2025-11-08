@@ -19,7 +19,6 @@ def open_website(text):
             time.sleep(1)
             speak_safe(random.choice(success_open))
         except Exception as e:
-            print(f"[Error opening site]: {e}")
             speak_safe("Sorry sir, I could not open the website.")
             return
 
