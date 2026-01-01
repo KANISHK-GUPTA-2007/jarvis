@@ -3,6 +3,7 @@ warnings.filterwarnings("ignore")
 
 import sys
 import os
+os.environ["QTWEBENGINE_DISABLE_SANDBOX"] = "1"
 from PyQt5.QtWidgets import (
     QApplication, QWidget, QLabel, QGraphicsDropShadowEffect, QTextEdit
 )
@@ -64,11 +65,15 @@ class JarvisUI(QWidget):
         self.init_ui()
 
     def init_ui(self):
+        self.show()
+        QTimer.singleShot(0, lambda: None)
+        QApplication.processEvents()
+
         self.setWindowTitle("JARVIS Interface")
         self.setGeometry(0, 0, 1920, 1080)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
-
+        
         # --- Background video ---
         self.web_view = QWebEngineView(self)
         html = f"""
@@ -77,11 +82,17 @@ class JarvisUI(QWidget):
             <source src="file:///{self.webm_path.replace(os.sep, '/')}" type="video/webm">
         </video></body></html>
         """
-        tmp_html = os.path.join(os.path.dirname(self.webm_path), "temp_ui.html")
+        ui_dir = os.path.dirname(self.webm_path)
+
+# ensure directory exists
+        os.makedirs(ui_dir, exist_ok=True)
+
+        tmp_html = os.path.join(ui_dir, "temp_ui.html")
         with open(tmp_html, "w", encoding="utf-8") as f:
             f.write(html)
-        self.web_view.load(QUrl.fromLocalFile(tmp_html))
-        self.web_view.setGeometry(0, 0, 1920, 1080)
+
+            self.web_view.load(QUrl.fromLocalFile(tmp_html))
+            self.web_view.setGeometry(0, 0, 1920, 1080)
 
         # --- Mic core ---
         self.core = QLabel(self)
@@ -110,7 +121,7 @@ class JarvisUI(QWidget):
 
         # --- Glow effect ---
         glow = QGraphicsDropShadowEffect()
-        glow.setBlurRadius(80)
+        glow.setBlurRadius(45)
         glow.setColor(QColor(0, 255, 255))
         glow.setOffset(0, 0)
         self.core.setGraphicsEffect(glow)
@@ -192,11 +203,32 @@ class JarvisUI(QWidget):
         self.is_listening = False
         self.halo.update()
 
+    def load_background(self):
+        self.web_view = QWebEngineView(self)
+
+        html = f"""
+        <html><body style="margin:0; background:black; overflow:hidden;">
+        <video autoplay loop muted playsinline width="100%" height="100%">
+            <source src="file:///{self.webm_path.replace(os.sep, '/')}" type="video/webm">
+        </video></body></html>
+        """
+
+        ui_dir = os.path.dirname(self.webm_path)
+        os.makedirs(ui_dir, exist_ok=True)
+
+        tmp_html = os.path.join(ui_dir, "temp_ui.html")
+        with open(tmp_html, "w", encoding="utf-8") as f:
+            f.write(html)
+
+        self.web_view.setGeometry(self.rect())
+        self.web_view.load(QUrl.fromLocalFile(tmp_html))
+
     def run_main_file(self):
+    
         self.process = QProcess(self)
         self.process.readyReadStandardOutput.connect(self.handle_output)
-        self.process.finished.connect(lambda: QTimer.singleShot(200, self.stop_pulse))
-        self.process.start(sys.executable, [self.main_py_path])
+        self.process.finished.connect(lambda: QTimer.singleShot(300, self.load_background))
+        self.process.start(sys.executable, ['-u',self.main_py_path])
 
     def handle_output(self):
         data = self.process.readAllStandardOutput().data().decode("utf-8", errors="ignore").strip()
@@ -212,11 +244,11 @@ class JarvisUI(QWidget):
 
 
 if __name__ == "__main__":
-    main_py = r"C:\Users\hp\Desktop\JARVIS project\main.py"
-    webm = r"C:\Users\hp\Desktop\JARVIS project\JARVIS_UI\50504.webm"
-    click_sound = r"C:\Users\hp\Desktop\JARVIS project\JARVIS_UI\sound.mp3"
+    main_py = r"C:\Users\LENOVO\Desktop\JARVIS project\main.py"
+    webm = r"C:\Users\LENOVO\Desktop\JARVIS project\JARVIS_UI\50504.webm"
+    click_sound = r"C:\Users\LENOVO\Desktop\JARVIS project\JARVIS_UI\sound.mp3"
 
     app = QApplication(sys.argv)
     jarvis = JarvisUI(main_py, webm, click_sound)
-    jarvis.showMaximized()
+    jarvis.showFullScreen()
     sys.exit(app.exec_())
