@@ -174,33 +174,6 @@ label.image = tk_img
 
 ---
 
-## 🧪 Technologies & Libraries Used
-
-Core technologies based on actual usage:
-
-- Python 3.10+
-- Tkinter
-- SpeechRecognition
-- Edge-TTS
-- g4f
-- deep-translator
-- Pillow (PIL)
-- Requests
-- SoundDevice / SoundFile
-- PyAutoGUI
-- PyWhatKit
-- Wikipedia
-- Flask
-- Pygame
-- yt-dlp
-- NumPy / Pandas / SciPy
-- NLTK
-- BeautifulSoup4
-- HuggingFace Hub
-- AsyncIO / AioHTTP
-
----
-
 ## 🔄 Update Project
 
 ```
